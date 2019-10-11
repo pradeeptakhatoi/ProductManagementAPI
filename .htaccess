@@ -1,0 +1,15 @@
+# Uncomment the following to prevent the httpoxy vulnerability
+# See: https://httpoxy.org/
+<IfModule mod_headers.c>
+    RequestHeader unset Proxy
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    #RewriteCond %{HTTP:X-Forwarded-Proto} !https
+    #RewriteCond %{SERVER_NAME} !localhost
+    #RewriteRule !/status https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+    #Rewriterule ^db/.*$ - [PT]
+    RewriteRule    ^$    webroot/    [L]
+    RewriteRule    (.*) webroot/$1    [L]
+</IfModule>

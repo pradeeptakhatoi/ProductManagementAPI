@@ -1,0 +1,10 @@
+vendor/*
+logs/*
+tmp/*
+webroot/tempemails/*
+webroot/files/profile_pic/
+webroot/files/project_message_files/
+webroot/files/project_task_files/
+webroot/files/project_bug_files/
+webroot/files/project_files/*
+/nbproject/private/
