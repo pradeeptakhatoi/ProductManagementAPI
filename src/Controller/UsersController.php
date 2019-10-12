@@ -3,6 +3,10 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Network\Exception\UnauthorizedException;
+use Cake\Utility\Security;
+use Firebase\JWT\JWT;
 
 /**
  * Users Controller
@@ -11,6 +15,50 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+
+    public function initialize() {
+        parent::initialize();
+
+        // Load Models   
+        $this->loadModel('Users');
+  
+        // Public Actions.   
+        $this->Auth->allow(['login', 'logout']);
+    }
+
+    public function login() {
+        $responseCode = FAILURE_RESPONSE_CODE;
+        $responseData = [];
+
+        if ($this->request->is('post')) {
+
+            $data = $this->request->input('json_decode', true);
+            $password = trim($data['password']);
+            $email = trim($data['email']);
+            $user = $this->Users->find()->where(['email' => $email])->first();
+
+            if (empty($user) || (md5($password) != $user->password)) {
+                //throw new UnauthorizedException('Invalid email or password');
+                failureResponse("Invalid Login Credentails!");
+            }
+
+            $responseCode = SUCCESS_RESPONSE_CODE;
+            $token = JWT::encode([
+                        'sub' => $user['id'],
+                        'exp' => time() + 3600 * 2, // 2 hours
+                        'role' => $user['user_type']
+                            ], Security::salt());
+
+            $responseData = [
+                'id' => $user['id'],
+                'name' => $user['name'],                
+                'email' => $user['email'],
+                'role' => $user['role'],
+                'token' => $token
+            ];
+        }
+        sendResponse($responseCode, $responseData);
+    } 
 
     /**
      * Index method

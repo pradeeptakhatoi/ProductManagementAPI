@@ -1,9 +1,9 @@
 <?php
 
-if (1 || isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'localhost') {
+if (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] == 'localhost') {
     define('DB_HOSTNAME', "localhost");
     define('DB_USERNAME', "root");
-    define('DB_PASSWORD', "root");
+    define('DB_PASSWORD', "");
     define('DB_NAME', "product_management");
     define('DEBUG', true);
 } else {
