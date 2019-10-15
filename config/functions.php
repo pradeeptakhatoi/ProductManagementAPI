@@ -9,8 +9,8 @@
  */
 
 function failureResponse($errorMsg = "Error Occured!!") {
-    $responseData['message'] = $errorMsg;
-    $response = ['code' => FAILURE_RESPONSE_CODE, 'responseData' => $responseData];
+    $resData['message'] = $errorMsg;
+    $response = ['code' => FAILURE_RESPONSE_CODE, 'resData' => $resData];
     header("Content-Type: application/json");
     echo json_encode($response);
     exit;
@@ -20,8 +20,8 @@ function failureResponse($errorMsg = "Error Occured!!") {
  * Common function used to return response on success.
  */
 
-function successResponse($responseData = []) {
-    $response = ['code' => SUCCESS_RESPONSE_CODE, 'responseData' => $responseData];
+function successResponse($resData = []) {
+    $response = ['code' => SUCCESS_RESPONSE_CODE, 'resData' => $resData];
     header("Content-Type: application/json");
     echo json_encode($response);
     exit;
@@ -31,8 +31,8 @@ function successResponse($responseData = []) {
  * Common function used to return response on both success & failure.
  */
 
-function sendResponse($responseCode = FAILURE_RESPONSE_CODE, $responseData = []) {
-    $response = ['code' => $responseCode, 'responseData' => $responseData];
+function sendResponse($responseCode = FAILURE_RESPONSE_CODE, $resData = []) {
+    $response = ['code' => $responseCode, 'resData' => $resData];
     header("Content-Type: application/json");
     echo json_encode($response);
     exit;

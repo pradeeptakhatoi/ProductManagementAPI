@@ -3,15 +3,25 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 
-/**
- * Products Controller
- *
- * @property \App\Model\Table\ProductsTable $Products
- *
- * @method \App\Model\Entity\Product[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- */
 class ProductsController extends AppController
 {
+
+
+    public function initialize() {
+        parent::initialize();
+
+        // Load Models   
+        $this->loadModel('Products');
+        $this->loadModel('ProductForms');
+  
+        // Public Actions.   
+        $this->Auth->allow(['getForms']);
+    }
+
+    public function getForms() {  
+        $forms = $this->ProductForms->find(); 
+        sendResponse(SUCCESS_RESPONSE_CODE, $forms);
+    }
 
     /**
      * Index method
